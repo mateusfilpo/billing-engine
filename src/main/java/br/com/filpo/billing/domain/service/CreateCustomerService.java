@@ -1,13 +1,12 @@
 package br.com.filpo.billing.domain.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import br.com.filpo.billing.domain.model.Customer;
 import br.com.filpo.billing.domain.port.in.CreateCustomerUseCase;
 import br.com.filpo.billing.domain.port.out.SaveCustomerPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
