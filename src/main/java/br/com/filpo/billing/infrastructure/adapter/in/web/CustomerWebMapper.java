@@ -2,6 +2,9 @@ package br.com.filpo.billing.infrastructure.adapter.in.web;
 
 import br.com.filpo.billing.domain.model.Customer;
 import br.com.filpo.billing.infrastructure.adapter.in.web.dto.CustomerResponse;
+
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,5 +17,11 @@ public class CustomerWebMapper {
                 customer.getEmail(),
                 customer.getStatus(),
                 customer.getCreatedAt() != null ? customer.getCreatedAt().toString() : null);
+    }
+
+    public List<CustomerResponse> toResponseList(List<Customer> customers) {
+        return customers.stream()
+                .map(this::toResponse)
+                .toList();
     }
 }
