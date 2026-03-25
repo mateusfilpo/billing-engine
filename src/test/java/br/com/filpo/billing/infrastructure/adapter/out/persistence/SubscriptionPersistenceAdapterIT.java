@@ -1,22 +1,27 @@
 package br.com.filpo.billing.infrastructure.adapter.out.persistence;
 
-import br.com.filpo.billing.TestcontainersConfiguration;
-import br.com.filpo.billing.domain.model.*;
-import br.com.filpo.billing.infrastructure.adapter.out.persistence.repository.SpringDataCustomerRepository;
-import br.com.filpo.billing.infrastructure.adapter.out.persistence.repository.SpringDataPlanRepository;
-import br.com.filpo.billing.infrastructure.adapter.out.persistence.repository.SpringDataSubscriptionRepository;
-import org.junit.jupiter.api.BeforeEach;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import br.com.filpo.billing.TestcontainersConfiguration;
+import br.com.filpo.billing.domain.model.BillingCycle;
+import br.com.filpo.billing.domain.model.Customer;
+import br.com.filpo.billing.domain.model.Plan;
+import br.com.filpo.billing.domain.model.Subscription;
+import br.com.filpo.billing.domain.model.SubscriptionStatus;
+import br.com.filpo.billing.infrastructure.adapter.out.persistence.repository.SpringDataCustomerRepository;
+import br.com.filpo.billing.infrastructure.adapter.out.persistence.repository.SpringDataPlanRepository;
+import br.com.filpo.billing.infrastructure.adapter.out.persistence.repository.SpringDataSubscriptionRepository;
 
 @SpringBootTest
 @Import(TestcontainersConfiguration.class)
@@ -38,9 +43,8 @@ class SubscriptionPersistenceAdapterIT {
     @Autowired
     private SpringDataPlanRepository planRepository;
 
-    @BeforeEach
-    void setUp() {
-        // A ordem de deleção importa por causa das FKs (filhos antes dos pais)
+    @AfterEach
+    void tearDown() {
         subscriptionRepository.deleteAll();
         planRepository.deleteAll();
         customerRepository.deleteAll();
