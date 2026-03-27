@@ -1,6 +1,7 @@
 package br.com.filpo.billing.infrastructure.adapter.out.persistence;
 
 import br.com.filpo.billing.domain.model.Payment;
+import br.com.filpo.billing.domain.model.PaymentStatus;
 import br.com.filpo.billing.domain.port.out.FindPaymentPort;
 import br.com.filpo.billing.domain.port.out.SavePaymentPort;
 import br.com.filpo.billing.infrastructure.adapter.out.persistence.entity.PaymentJpaEntity;
@@ -8,6 +9,7 @@ import br.com.filpo.billing.infrastructure.adapter.out.persistence.repository.Sp
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,6 +36,13 @@ public class PaymentPersistenceAdapter implements SavePaymentPort, FindPaymentPo
     @Override
     public List<Payment> findByInvoiceId(UUID invoiceId) {
         return repository.findByInvoiceId(invoiceId).stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Payment> findFailedPaymentsDueForRetry(LocalDateTime now) {
+        return repository.findByStatusAndNextRetryAtLessThanEqual(PaymentStatus.FAILED.name(), now).stream()
                 .map(mapper::toDomain)
                 .toList();
     }
