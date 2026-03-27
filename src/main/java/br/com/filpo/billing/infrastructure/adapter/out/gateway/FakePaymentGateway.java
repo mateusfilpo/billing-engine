@@ -21,7 +21,6 @@ public class FakePaymentGateway implements PaymentGateway {
     public PaymentGatewayResponse charge(BigDecimal amount, String idempotencyKey) {
         log.info("[FAKE GATEWAY] Cobrando R$ {} (Chave Idempotência: {})...", amount, idempotencyKey);
 
-        // Simula 80% de chance de sucesso
         boolean success = random.nextInt(100) < 80;
 
         if (success) {
