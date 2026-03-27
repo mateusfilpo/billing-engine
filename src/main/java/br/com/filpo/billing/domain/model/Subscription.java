@@ -65,6 +65,20 @@ public class Subscription {
         this.updatedAt = LocalDateTime.now();
     }
 
+    public void renewPeriod(BillingCycle billingCycle) {
+        this.currentPeriodStart = this.currentPeriodEnd;
+        this.currentPeriodEnd = calculatePeriodEnd(this.currentPeriodStart, billingCycle);
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void handleEndOfPeriod() {
+        if (this.cancelAtPeriodEnd) {
+            this.status = SubscriptionStatus.CANCELLED;
+            this.cancelledAt = LocalDateTime.now();
+            this.updatedAt = LocalDateTime.now();
+        }
+    }
+
     private static LocalDate calculatePeriodEnd(LocalDate startDate, BillingCycle billingCycle) {
         return switch (billingCycle) {
             case MONTHLY -> startDate.plusMonths(1);
