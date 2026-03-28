@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Slf4j
 @Component
-@Profile("default")
+@Profile({ "default", "dev" })
 public class FakePaymentGateway implements PaymentGateway {
 
     private final Random random = new Random();
