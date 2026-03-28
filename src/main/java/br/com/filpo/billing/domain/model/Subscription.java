@@ -15,7 +15,7 @@ public class Subscription {
 
     private final UUID id;
     private final UUID customerId;
-    private final UUID planId;
+    private UUID planId;
     private SubscriptionStatus status;
     private LocalDate currentPeriodStart;
     private LocalDate currentPeriodEnd;
@@ -77,6 +77,14 @@ public class Subscription {
             this.cancelledAt = LocalDateTime.now();
             this.updatedAt = LocalDateTime.now();
         }
+    }
+
+    public void changePlan(UUID newPlanId) {
+        if (this.status != SubscriptionStatus.ACTIVE) {
+            throw new IllegalStateException("Apenas assinaturas ativas podem trocar de plano");
+        }
+        this.planId = newPlanId;
+        this.updatedAt = LocalDateTime.now();
     }
 
     private static LocalDate calculatePeriodEnd(LocalDate startDate, BillingCycle billingCycle) {

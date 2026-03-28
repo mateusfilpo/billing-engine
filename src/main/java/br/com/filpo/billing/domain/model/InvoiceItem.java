@@ -23,9 +23,6 @@ public class InvoiceItem {
         if (description == null || description.isBlank()) {
             throw new IllegalArgumentException("A descrição do item é obrigatória");
         }
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("O valor não pode ser negativo");
-        }
         if (quantity <= 0) {
             throw new IllegalArgumentException("A quantidade deve ser maior que zero");
         }
